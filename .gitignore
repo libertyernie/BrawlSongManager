@@ -1,0 +1,6 @@
+old.git/
+SongManager/bin/Debug
+SongManager/bin/Release/*
+SongManager/obj
+!SongManager/bin/Release/BrawlSongManager.exe
+*.suo

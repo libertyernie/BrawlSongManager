@@ -455,5 +455,9 @@ namespace BrawlSongManager {
 				}
 			}
 		}
+
+		private void updateMumenumainToolStripMenuItem_Click(object sender, EventArgs e) {
+			songNameBar.UpdateMenumain();
+		}
 	}
 }

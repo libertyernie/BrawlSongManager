@@ -74,6 +74,8 @@ namespace BrawlSongManager {
 		/// It also clears the list of edited ("dirty") strings, and records the current names (for the "restore" button).
 		/// </summary>
 		public String findInfoFile() {
+			_index = -1;
+
 			info = info_training = null;
 			_currentFile = _currentTrainingFile = null;
 
@@ -202,6 +204,45 @@ namespace BrawlSongManager {
 			updateNodeString();
 			modifiedStringIndices.Add(_index);
 			refreshColor();
+		}
+
+		public void UpdateMenumain() {
+			if (DialogResult.OK == MessageBox.Show("Overwrite the current mu_menumain?", "Overwrite File", MessageBoxButtons.OKCancel)) {
+				string mu_menumain_path = null;
+				string[] lookIn = { "../../menu2/mu_menumain.pac",
+								"../../menu2/mu_menumain_en.pac",
+								"../../../pfmenu2/mu_menumain.pac",
+								"../../../pfmenu2/mu_menumain_en.pac" };
+				foreach (string path in lookIn) {
+					if (File.Exists(path)) {
+						mu_menumain_path = path;
+						break;
+					}
+				}
+				if (mu_menumain_path != null) {
+					updateNodeString();
+					info.Rebuild();
+
+					string tempfile = Path.GetTempFileName();
+					string infotmp = Path.GetTempFileName();
+					info.Export(infotmp);
+					File.Copy(mu_menumain_path, tempfile, true);
+
+					ResourceNode mu_menumain = NodeFactory.FromFile(null, tempfile);
+					MSBinNode m7 = mu_menumain.FindChild("MiscData[7]", false) as MSBinNode;
+					if (m7 == null) {
+						MessageBox.Show(this.ParentForm, "The mu_menumain file does not appear to have a MiscData[7].",
+							"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					} else {
+						m7.Replace(infotmp);
+						mu_menumain.Merge();
+						mu_menumain.Export(mu_menumain_path);
+					}
+
+					File.Delete(tempfile);
+					File.Delete(infotmp);
+				}
+			}
 		}
 
 		private class MyTextBox : TextBox {

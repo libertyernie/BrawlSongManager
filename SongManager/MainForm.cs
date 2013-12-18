@@ -228,6 +228,11 @@ namespace BrawlSongManager {
 					changeDirectory(search); // Change to the typical song folder used by the FPC, if it exists on the drive
 					return;
 				}
+				search = new DirectoryInfo(dir.FullName + "\\projectm\\pf\\sound\\strm");
+				if (search.Exists) {
+					changeDirectory(search);
+					return;
+				}
 			}
 			Array.Sort(brstmFiles, delegate(FileInfo f1, FileInfo f2) {
 				return f1.Name.ToLower().CompareTo(f2.Name.ToLower()); // Sort by filename, case-insensitive

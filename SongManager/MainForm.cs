@@ -437,10 +437,16 @@ namespace BrawlSongManager {
 		}
 
 		private void defaultSongsListToolStripMenuItem_Click(object sender, EventArgs e) {
-			ShowText st = new ShowText();
-			st.Text = "Brawl Defaults";
-			st.TextBox = SongsByStage.DEFAULTS;
-			st.Show();
+			if (splitContainerTop.Panel2Collapsed) {
+				splitContainerTop.Panel2.Controls.Add(new RichTextBox() {
+					Dock = DockStyle.Fill,
+					Text = SongsByStage.DEFAULTS,
+				});
+				splitContainerTop.Panel2Collapsed = false;
+			} else {
+				splitContainerTop.Panel2.Controls.Clear();
+				splitContainerTop.Panel2Collapsed = true;
+			}
 		}
 
 		private void MainForm_KeyDown(object sender, KeyEventArgs e) {

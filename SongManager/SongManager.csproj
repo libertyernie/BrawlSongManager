@@ -86,12 +86,6 @@
     <Compile Include="NameDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ShowText.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ShowText.Designer.cs">
-      <DependentUpon>ShowText.cs</DependentUpon>
-    </Compile>
     <Compile Include="SongListIndices.cs" />
     <Compile Include="SongNameBar.cs">
       <SubType>UserControl</SubType>
@@ -119,9 +113,6 @@
     </Compile>
     <EmbeddedResource Include="NameDialog.resx">
       <DependentUpon>NameDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ShowText.resx">
-      <DependentUpon>ShowText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SongNameBar.resx">
       <DependentUpon>SongNameBar.cs</DependentUpon>

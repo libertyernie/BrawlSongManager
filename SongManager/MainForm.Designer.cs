@@ -40,23 +40,27 @@
 			this.loadNamesFromInfopacToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadBRSTMPlayerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupSongsByStageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.updateMumenumainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.defaultSongsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.updateMumenumainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitContainerTop = new System.Windows.Forms.SplitContainer();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).BeginInit();
+			this.splitContainerTop.Panel1.SuspendLayout();
+			this.splitContainerTop.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -188,6 +192,21 @@
 			this.groupSongsByStageToolStripMenuItem.Text = "Group songs by stage (SSBB)";
 			this.groupSongsByStageToolStripMenuItem.Click += new System.EventHandler(this.groupSongsByStageToolStripMenuItem_Click);
 			// 
+			// toolsToolStripMenuItem
+			// 
+			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateMumenumainToolStripMenuItem});
+			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+			this.toolsToolStripMenuItem.Text = "Tools";
+			// 
+			// updateMumenumainToolStripMenuItem
+			// 
+			this.updateMumenumainToolStripMenuItem.Name = "updateMumenumainToolStripMenuItem";
+			this.updateMumenumainToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+			this.updateMumenumainToolStripMenuItem.Text = "Update mu_menumain";
+			this.updateMumenumainToolStripMenuItem.Click += new System.EventHandler(this.updateMumenumainToolStripMenuItem_Click);
+			// 
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -219,27 +238,27 @@
 			this.statusToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
 			this.statusToolStripMenuItem.Text = "test";
 			// 
-			// toolsToolStripMenuItem
+			// splitContainerTop
 			// 
-			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.updateMumenumainToolStripMenuItem});
-			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-			this.toolsToolStripMenuItem.Text = "Tools";
+			this.splitContainerTop.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainerTop.Location = new System.Drawing.Point(0, 24);
+			this.splitContainerTop.Name = "splitContainerTop";
+			this.splitContainerTop.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
-			// updateMumenumainToolStripMenuItem
+			// splitContainerTop.Panel1
 			// 
-			this.updateMumenumainToolStripMenuItem.Name = "updateMumenumainToolStripMenuItem";
-			this.updateMumenumainToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.updateMumenumainToolStripMenuItem.Text = "Update mu_menumain";
-			this.updateMumenumainToolStripMenuItem.Click += new System.EventHandler(this.updateMumenumainToolStripMenuItem_Click);
+			this.splitContainerTop.Panel1.Controls.Add(this.splitContainer1);
+			this.splitContainerTop.Panel2Collapsed = true;
+			this.splitContainerTop.Size = new System.Drawing.Size(592, 290);
+			this.splitContainerTop.SplitterDistance = 197;
+			this.splitContainerTop.TabIndex = 0;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(592, 314);
-			this.Controls.Add(this.splitContainer1);
+			this.Controls.Add(this.splitContainerTop);
 			this.Controls.Add(this.menuStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
@@ -253,6 +272,9 @@
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.splitContainerTop.Panel1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainerTop)).EndInit();
+			this.splitContainerTop.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -281,6 +303,7 @@
 		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem updateMumenumainToolStripMenuItem;
+		private System.Windows.Forms.SplitContainer splitContainerTop;
 
 
 

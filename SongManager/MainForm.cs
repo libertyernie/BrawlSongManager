@@ -436,12 +436,13 @@ namespace BrawlSongManager {
 			Close();
 		}
 
-		private void defaultSongsListToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void defaultSongsListToolStripMenuItem_Click(object sender, EventArgs q) {
 			if (splitContainerTop.Panel2Collapsed) {
-				splitContainerTop.Panel2.Controls.Add(new RichTextBox() {
+				var r = new ReadOnlySearchableRichTextBox() {
 					Dock = DockStyle.Fill,
 					Text = SongsByStage.DEFAULTS,
-				});
+				};
+				splitContainerTop.Panel2.Controls.Add(r);
 				splitContainerTop.Panel2Collapsed = false;
 			} else {
 				splitContainerTop.Panel2.Controls.Clear();

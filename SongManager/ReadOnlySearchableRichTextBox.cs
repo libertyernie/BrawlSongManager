@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Windows.Forms;
+
+namespace BrawlSongManager {
+	public class ReadOnlySearchableRichTextBox : RichTextBox {
+		private string search;
+		private bool bypassSelectionChangedHandler;
+
+		public ReadOnlySearchableRichTextBox() {
+			search = "";
+			this.ReadOnly = true;
+
+			this.KeyPress += ReadOnlySearchableRichTextBox_KeyPress;
+			this.KeyDown += (o, e) => {
+				if (e.Modifiers == Keys.None) e.Handled = true;
+			};
+			this.SelectionChanged += (o, e) => {
+				if (!bypassSelectionChangedHandler) {
+					SearchClear();
+				}
+			};
+		}
+
+		private void SelectBypass(int index, int length) {
+			bypassSelectionChangedHandler = true;
+			Select(index, length);
+			bypassSelectionChangedHandler = false;
+		}
+
+		private void SearchLook(int startIndex) {
+			int index = Text.IndexOf(search, startIndex, StringComparison.InvariantCultureIgnoreCase);
+			if (index >= 0) {
+				this.SelectBypass(index, search.Length);
+			} else if (startIndex > 0) {
+				SearchLook(0);
+			}
+		}
+
+		public void SearchClear() {
+			search = "";
+			SelectBypass(SelectionStart, 0);
+		}
+		public void SearchAdd(char c) {
+			search += c;
+			SearchLook(SelectionStart);
+		}
+		public void SearchBackspace() {
+			search = search.Substring(0, search.Length - 1);
+			SearchLook(SelectionStart);
+		}
+		public void SearchNext() {
+			if (SelectionLength > 0) SearchLook(SelectionStart + 1);
+		}
+
+		private void ReadOnlySearchableRichTextBox_KeyPress(object sender, KeyPressEventArgs e) {
+			e.Handled = true;
+			if (!char.IsControl(e.KeyChar)) {
+				SearchAdd(e.KeyChar);
+			} else if (e.KeyChar == 8) {
+				SearchBackspace();
+			} else if (e.KeyChar == 27) {
+				SearchClear();
+			} else if (e.KeyChar == 13) {
+				SearchNext();
+			} else {
+				Console.WriteLine((int)e.KeyChar);
+				e.Handled = false;
+			}
+		}
+	}
+}

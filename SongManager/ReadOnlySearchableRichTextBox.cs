@@ -49,6 +49,8 @@ namespace BrawlSongManager {
 			SearchLook(SelectionStart);
 		}
 		public void SearchBackspace() {
+			if (search.Length == 0) return;
+
 			search = search.Substring(0, search.Length - 1);
 			SearchLook(SelectionStart);
 		}

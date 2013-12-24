@@ -20,7 +20,7 @@ namespace BrawlSongManager {
 			};
 			this.SelectionChanged += (o, e) => {
 				if (!bypassSelectionChangedHandler) {
-					SearchClear();
+					search = "";
 				}
 			};
 		}

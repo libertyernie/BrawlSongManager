@@ -440,7 +440,7 @@ namespace BrawlSongManager {
 			if (splitContainerTop.Panel2Collapsed) {
 				var r = new ReadOnlySearchableRichTextBox() {
 					Dock = DockStyle.Fill,
-					Text = SongsByStage.DEFAULTS,
+					Text = ReadOnlySearchableRichTextBox.HELP + "\n\n" + SongsByStage.DEFAULTS,
 				};
 				splitContainerTop.Panel2.Controls.Add(r);
 				splitContainerTop.Panel2Collapsed = false;

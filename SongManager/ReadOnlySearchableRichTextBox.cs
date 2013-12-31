@@ -10,6 +10,8 @@ namespace BrawlSongManager {
 		private string search;
 		private bool bypassSelectionChangedHandler;
 
+		public const string HELP = "[To search this text box, click anywhere in it and start typing! Use the Enter key to find the next match, and clear the selection to reset your search query.]";
+
 		public ReadOnlySearchableRichTextBox() {
 			search = "";
 			this.ReadOnly = true;

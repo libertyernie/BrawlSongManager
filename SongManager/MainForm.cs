@@ -5,6 +5,7 @@ using BrawlLib.SSBB.ResourceNodes;
 using System.IO;
 using System.Audio;
 using System.Collections.Generic;
+using BrawlManagerLib;
 
 namespace BrawlSongManager {
 	public partial class MainForm : Form {
@@ -365,7 +366,7 @@ namespace BrawlSongManager {
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
-			new AboutBSM(Icon).ShowDialog(this);
+			new AboutBSM(Icon, System.Reflection.Assembly.GetExecutingAssembly()).ShowDialog(this);
 		}
 
 		private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -376,7 +377,7 @@ namespace BrawlSongManager {
 				dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 				if (dialog.ShowDialog(this) == DialogResult.OK) {
-					FileOperations.Copy(_rootPath, dialog.FileName, FileOperations.FileOperationFlags.FOF_NOCONFIRMATION);
+					File.Copy(_rootPath, dialog.FileName);
 				}
 			}
 		}

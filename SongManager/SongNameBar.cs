@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using BrawlLib.SSBB.ResourceNodes;
 using System.IO;
+using BrawlManagerLib;
 
 namespace BrawlSongManager {
 	public partial class SongNameBar : UserControl {
@@ -40,7 +41,7 @@ namespace BrawlSongManager {
 			set {
 				_index = value;
 				if (_index < 0 || info == null) {
-					textBox1.Enabled = false;
+					textBox1.Enabled = button1.Enabled = button2.Enabled = false;
 					textBox1.BackColor = SystemColors.Control;
 					TextBoxText = "";
 				} else {
@@ -49,7 +50,7 @@ namespace BrawlSongManager {
 					if (info_training != null && info_training._strings[_index] != textBox1.Text) {
 						textBox1.BackColor = Color.LightPink;
 					}
-					textBox1.Enabled = true;
+					textBox1.Enabled = button1.Enabled = button2.Enabled = true;
 				}
 			}
 		}
@@ -200,7 +201,9 @@ namespace BrawlSongManager {
 		}
 
 		private void button2_Click(object sender, EventArgs e) {
-			TextBoxText = SongListIndices.defaultNameFor(_index);
+			TextBoxText = (from s in SongIDMap.Songs
+						   where s.InfoPacIndex == _index
+						   select s.DefaultName).First();
 			updateNodeString();
 			modifiedStringIndices.Add(_index);
 			refreshColor();

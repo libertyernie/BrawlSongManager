@@ -6,6 +6,7 @@ using System.IO;
 using System.Audio;
 using System.Collections.Generic;
 using BrawlManagerLib;
+using System.Linq;
 
 namespace BrawlSongManager {
 	public partial class MainForm : Form {
@@ -186,7 +187,11 @@ namespace BrawlSongManager {
 					RightControl = couldNotOpenLabel;
 				}
 				if (LoadNames) {
-					int index = SongListIndices.indexFor(_rootPath.Substring(_rootPath.Length - 9, 3).ToUpper());
+					string filename = Path.GetFileNameWithoutExtension(_rootPath);
+					int index = (from s in SongIDMap.Songs
+								 where s.Filename == filename
+								 select s.InfoPacIndex ?? -1)
+								 .DefaultIfEmpty(-1).First();
 					songNameBar.Index = index;
 				}
 				if (LoadBrstms && _rootNode is IAudioSource) {

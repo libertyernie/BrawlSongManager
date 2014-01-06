@@ -79,7 +79,6 @@
     <Compile Include="ReadOnlySearchableRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SongListIndices.cs" />
     <Compile Include="SongNameBar.cs">
       <SubType>UserControl</SubType>
     </Compile>

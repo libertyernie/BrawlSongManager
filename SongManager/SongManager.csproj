@@ -53,8 +53,9 @@
     <ApplicationIcon>sicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BrawlLib">
-      <HintPath>..\..\BrawlLib.dll</HintPath>
+    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\brawltools2\BrawlLib\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,6 +86,12 @@
     <Compile Include="SongNameBar.Designer.cs">
       <DependentUpon>SongNameBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="SongPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SongPanel.Designer.cs">
+      <DependentUpon>SongPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="SongsByStage.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -102,6 +109,9 @@
     </Compile>
     <EmbeddedResource Include="SongNameBar.resx">
       <DependentUpon>SongNameBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SongPanel.resx">
+      <DependentUpon>SongPanel.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -145,6 +155,10 @@
     <ProjectReference Include="..\..\BrawlManagerLib\BrawlManagerLib.csproj">
       <Project>{b5d693d8-3952-44f9-8952-8c1af74f0634}</Project>
       <Name>BrawlManagerLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\brawltools2\BrawlLib\BrawlLib.csproj">
+      <Project>{462D0BBF-CE82-405B-8848-2F91E9E14C55}</Project>
+      <Name>BrawlLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

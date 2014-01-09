@@ -31,6 +31,8 @@
 			this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.songPanel1 = new BrawlSongManager.SongPanel();
+			this.rightLabel = new System.Windows.Forms.Label();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.changeDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,6 +51,7 @@
 			this.splitContainerTop = new System.Windows.Forms.SplitContainer();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -66,6 +69,11 @@
 			// splitContainer1.Panel1
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.listBox1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.songPanel1);
+			this.splitContainer1.Panel2.Controls.Add(this.rightLabel);
 			this.splitContainer1.Size = new System.Drawing.Size(592, 290);
 			this.splitContainer1.SplitterDistance = 180;
 			this.splitContainer1.TabIndex = 0;
@@ -111,6 +119,24 @@
 			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+			// 
+			// songPanel1
+			// 
+			this.songPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.songPanel1.Location = new System.Drawing.Point(0, 0);
+			this.songPanel1.Name = "songPanel1";
+			this.songPanel1.Size = new System.Drawing.Size(408, 290);
+			this.songPanel1.TabIndex = 1;
+			// 
+			// rightLabel
+			// 
+			this.rightLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rightLabel.Location = new System.Drawing.Point(0, 0);
+			this.rightLabel.Name = "rightLabel";
+			this.rightLabel.Size = new System.Drawing.Size(408, 290);
+			this.rightLabel.TabIndex = 0;
+			this.rightLabel.Text = "Right Label";
+			this.rightLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// menuStrip1
 			// 
@@ -267,6 +293,7 @@
 			this.Text = "Brawl Song Manager";
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
 			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.contextMenuStrip1.ResumeLayout(false);
@@ -304,6 +331,8 @@
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem updateMumenumainToolStripMenuItem;
 		private System.Windows.Forms.SplitContainer splitContainerTop;
+		private System.Windows.Forms.Label rightLabel;
+		private SongPanel songPanel1;
 
 
 

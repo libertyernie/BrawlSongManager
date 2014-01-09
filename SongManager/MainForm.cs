@@ -11,15 +11,6 @@ using System.Linq;
 namespace BrawlSongManager {
 	public partial class MainForm : Form {
 		/// <summary>
-		/// The currently opened .brstm file's root node.
-		/// </summary>
-		private ResourceNode _rootNode;
-		/// <summary>
-		/// The full path to the currently opened .brstm file.
-		/// </summary>
-		private string _rootPath;
-
-		/// <summary>
 		/// The list of .brstm files in the current directory.
 		/// </summary>
 		private FileInfo[] brstmFiles;
@@ -36,120 +27,36 @@ namespace BrawlSongManager {
 			}
 		}
 
-		/// <summary>
-		/// Labels for RightControl.
-		/// </summary>
-		private Label chooseLabel, loadingLabel, couldNotOpenLabel;
-
-		private Panel grid_app_panel;
-		private PropertyGrid grid;
-		private AudioPlaybackPanel app;
-		private SongNameBar songNameBar;
-
-		#region Options menu values
-		private bool _loadNames, _loadBrstms, _groupSongs;
-
-		public bool LoadNames {
-			get {
-				return _loadNames;
-			}
-			set {
-				_loadNames = value;
-				loadNamesFromInfopacToolStripMenuItem.Checked = value;
-			}
-		}
-
-		public bool LoadBrstms {
-			get {
-				return _loadBrstms;
-			}
-			set {
-				_loadBrstms = value;
-				loadBRSTMPlayerToolStripMenuItem.Checked = value;
-			}
-		}
-
-		public bool GroupSongs {
-			get {
-				return _groupSongs;
-			}
-			set {
-				_groupSongs = value;
-				groupSongsByStageToolStripMenuItem.Checked = value;
-			}
-		}
-		#endregion
+		private bool GroupSongs;
 
 		/// <summary>
-		/// Change the control used on the bottom-right section of the window.
-		/// Any existing controls in that panel will be removed, and the new control's Dock property will be set to Fill.
+		/// Change the message on the right section of the window.
+		/// If the message is not null, the audio player will be hidden.
 		/// </summary>
-		private Control RightControl {
+		private string RightControl {
 			get {
-				Control.ControlCollection controls = splitContainer1.Panel2.Controls;
-				if (controls.Count > 0) {
-					return controls[0];
-				} else {
-					return null;
-				}
+				return songPanel1.Visible ? null : rightLabel.Text;
 			}
 			set {
-				Control.ControlCollection controls = splitContainer1.Panel2.Controls;
-				controls.Clear();
-				controls.Add(value);
+				songPanel1.Visible = (value == null);
+				rightLabel.Text = value ?? string.Empty;
 			}
 		}
+
+		private const string chooseLabel = "Choose a stage from the list on the left-hand side.",
+			loadingLabel = "Loading...",
+			couldNotOpenLabel = "Could not open the .PAC file.";
 
 		public MainForm(string path, bool loadNames, bool loadBrstms, bool groupSongs) {
 			InitializeComponent();
 
 			// Setting these values also sets the items in the Options menu to the correct "Checked" value
-			this.LoadNames = loadNames;
-			this.LoadBrstms = loadBrstms;
-			this.GroupSongs = groupSongs;
+			loadNamesFromInfopacToolStripMenuItem.Checked = songPanel1.LoadNames = loadNames;
+			loadBRSTMPlayerToolStripMenuItem.Checked = songPanel1.LoadBrstms = loadBrstms;
+			groupSongsByStageToolStripMenuItem.Checked = GroupSongs = groupSongs;
 
 			// Later commands to change the titlebar assume there is a hypen in the title somewhere
 			this.Text += " -";
-
-			#region labels
-			this.chooseLabel = new Label();
-			this.chooseLabel.Name = "chooseLabel";
-			this.chooseLabel.Text = "Choose a stage from the list on the left-hand side.";
-			this.chooseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.chooseLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-
-			this.loadingLabel = new Label();
-			this.loadingLabel.Name = "loadingLabel";
-			this.loadingLabel.Text = "Loading...";
-			/*this.loadingLabel.BackColor = Color.Gray;
-			this.loadingLabel.ForeColor = Color.White;*/
-			this.loadingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.loadingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-
-			this.couldNotOpenLabel = new Label();
-			this.couldNotOpenLabel.Name = "couldNotOpenLabel";
-			this.couldNotOpenLabel.Text = "Could not open the .PAC file.";
-			this.couldNotOpenLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.couldNotOpenLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-			#endregion
-
-			#region grid_app_panel
-			grid_app_panel = new Panel();
-			grid_app_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-
-			grid = new PropertyGrid();
-			grid.HelpVisible = false;
-			grid.Dock = DockStyle.Fill;
-			grid_app_panel.Controls.Add(grid);
-
-			app = new AudioPlaybackPanel();
-			app.Dock = DockStyle.Bottom;
-			grid_app_panel.Controls.Add(app);
-
-			songNameBar = new SongNameBar();
-			songNameBar.Dock = DockStyle.Top;
-			grid_app_panel.Controls.Add(songNameBar);
-			#endregion
 
 			loadNames = loadNamesFromInfopacToolStripMenuItem.Checked;
 			loadBrstms = loadBRSTMPlayerToolStripMenuItem.Checked;
@@ -170,42 +77,19 @@ namespace BrawlSongManager {
 		}
 
 		private void open(FileInfo fi) {
-			RightControl = loadingLabel;
-			this.Refresh();
-			if (_rootNode != null) {
-				_rootNode.Dispose(); _rootNode = null;
-			}
 			if (fi == null) { // No .brstm file selected (i.e. you just opened the program)
 				RightControl = chooseLabel;
-				this.Refresh();
 			} else {
-				try {
-					fi.Refresh(); // Update file size
-					_rootNode = NodeFactory.FromFile(null, _rootPath = fi.FullName);
-				} catch (FileNotFoundException) {
-					// This might happen if you delete the file from Explorer after this program puts it in the list
-					RightControl = couldNotOpenLabel;
-				}
-				if (LoadNames) {
-					string filename = Path.GetFileNameWithoutExtension(_rootPath);
-					int index = (from s in SongIDMap.Songs
-								 where s.Filename == filename
-								 select s.InfoPacIndex ?? -1)
-								 .DefaultIfEmpty(-1).First();
-					songNameBar.Index = index;
-				}
-				if (LoadBrstms && _rootNode is IAudioSource) {
-					grid.SelectedObject = _rootNode;
-					app.TargetSource = _rootNode as IAudioSource;
-					app.Enabled = grid.Enabled = true;
-				} else {
-					grid.SelectedObject = null;
-					app.TargetSource = null;
-					app.Enabled = grid.Enabled = false;
-				}
-				RightControl = grid_app_panel;
-				this.Refresh();
+					try {
+						fi.Refresh(); // Update file size
+						songPanel1.Open(fi);
+					} catch (FileNotFoundException) {
+						// This might happen if you delete the file from Explorer after this program puts it in the list
+						RightControl = couldNotOpenLabel;
+					}
+				RightControl = null;
 			}
+			this.Refresh();
 		}
 
 		private void changeDirectory(string newpath) {
@@ -214,7 +98,7 @@ namespace BrawlSongManager {
 
 			refreshDirectory();
 
-			statusToolStripMenuItem.Text = songNameBar.findInfoFile();
+			statusToolStripMenuItem.Text = songPanel1.findInfoFile();
 		}
 		private void changeDirectory(DirectoryInfo path) {
 			changeDirectory(path.FullName);
@@ -261,6 +145,7 @@ namespace BrawlSongManager {
 			}
 			listBox1.Refresh();
 
+			// Re-select and re-load the file that was selected before
 			try {
 				listBox1.SelectedIndex = selected;
 			} catch (ArgumentOutOfRangeException) {
@@ -270,10 +155,10 @@ namespace BrawlSongManager {
 		}
 
 		private void closing(object sender, FormClosingEventArgs e) {
-			if (songNameBar != null && songNameBar.IsDirty) {
+			if (songPanel1.IsInfoBarDirty()) {
 				DialogResult res = MessageBox.Show("Save changes to info.pac?", "Closing", MessageBoxButtons.YesNoCancel);
 				if (res == DialogResult.Yes) {
-					songNameBar.save();
+					songPanel1.save();
 				} else if (res == DialogResult.Cancel) {
 					e.Cancel = true;
 				}
@@ -286,7 +171,7 @@ namespace BrawlSongManager {
 				if (s.Length == 1) { // Can only drag and drop one file
 					string filename = s[0].ToLower();
 					if (filename.EndsWith(".brstm") || filename.EndsWith(".wav")) {
-						if (sender == listBox1 || _rootPath != null) {
+						if (sender == listBox1/* || songPanel1.FileOpen*/) {
 							e.Effect = DragDropEffects.Copy;
 						}
 					}
@@ -304,18 +189,21 @@ namespace BrawlSongManager {
 						if (!nd.EntryText.ToLower().EndsWith(".brstm")) {
 							nd.EntryText += ".brstm"; // Force .brstm extension so it shows up in the list
 						}
+						if (string.Equals(nd.EntryText, Path.GetFileName(songPanel1.RootPath), StringComparison.InvariantCultureIgnoreCase)) {
+							songPanel1.Close(); // in case the file is already open
+						}
 						copyBrstm(filepath, CurrentDirectory + "\\" + nd.EntryText);
 						refreshDirectory();
 					}
 				}
-			} else if (_rootPath != null) {
+			}/* else if (songPanel1.FileOpen) {
 				if (_rootNode != null) {
 					_rootNode.Dispose(); // Close the file before overwriting it!
 					_rootNode = null;
 				}
 				copyBrstm(filepath, _rootPath);
 				refreshDirectory();
-			}
+			}*/
 		}
 
 		/// <summary>
@@ -323,7 +211,7 @@ namespace BrawlSongManager {
 		/// </summary>
 		/// <param name="src">a BRSTM or WAV file</param>
 		/// <param name="dest">the output BRSTM path</param>
-		private void copyBrstm(string src, string dest) {
+		private static void copyBrstm(string src, string dest) {
 			if (src.EndsWith(".brstm")) {
 				FileOperations.Copy(src, dest); // Use FileOperations (calls Windows shell -> asks for confirmation to overwrite)
 			} else {
@@ -375,42 +263,16 @@ namespace BrawlSongManager {
 		}
 
 		private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
-			using (var dialog = new SaveFileDialog()) {
-				dialog.Filter = "BRSTM stream|*.brstm";
-				dialog.DefaultExt = "brstm";
-				dialog.AddExtension = true;
-				dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-				if (dialog.ShowDialog(this) == DialogResult.OK) {
-					File.Copy(_rootPath, dialog.FileName);
-				}
-			}
+			songPanel1.Export();
 		}
 
 		private void renameToolStripMenuItem_Click(object sender, EventArgs e) {
-			using (NameDialog nd = new NameDialog()) {
-				nd.EntryText = Path.GetFileName(_rootPath);
-				if (nd.ShowDialog(this) == DialogResult.OK) {
-					if (!nd.EntryText.ToLower().EndsWith(".brstm")) {
-						nd.EntryText += ".brstm"; // Force .brstm extension so it shows up in the list
-					}
-					string from = _rootPath;
-					RightControl = loadingLabel;
-					if (_rootNode != null) {
-						_rootNode.Dispose(); _rootNode = null;
-					}
-					FileOperations.Rename(from, CurrentDirectory + "\\" + nd.EntryText);
-					refreshDirectory();
-				}
-			}
+			songPanel1.Rename();
+			refreshDirectory();
 		}
 
 		private void deleteToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (_rootNode != null) {
-				_rootNode.Dispose();
-				_rootNode = null;
-			}
-			FileOperations.Delete(_rootPath);
+			songPanel1.Delete();
 			refreshDirectory();
 		}
 
@@ -420,12 +282,11 @@ namespace BrawlSongManager {
 
 		#region Options menu actions
 		private void loadNamesFromInfopacToolStripMenuItem_Click(object sender, EventArgs e) {
-			LoadNames = !LoadNames;
-			songNameBar.Index = -1;
+			songPanel1.LoadNames = !songPanel1.LoadNames;
 		}
 
 		private void loadBRSTMPlayerToolStripMenuItem_Click(object sender, EventArgs e) {
-			LoadBrstms = !LoadBrstms;
+			songPanel1.LoadBrstms = !songPanel1.LoadBrstms;
 		}
 
 		private void groupSongsByStageToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -435,7 +296,7 @@ namespace BrawlSongManager {
 		#endregion
 
 		private void saveInfopacToolStripMenuItem_Click(object sender, EventArgs e) {
-			songNameBar.save();
+			songPanel1.save();
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -475,7 +336,7 @@ namespace BrawlSongManager {
 		}
 
 		private void updateMumenumainToolStripMenuItem_Click(object sender, EventArgs e) {
-			songNameBar.UpdateMenumain();
+			songPanel1.UpdateMenumain();
 		}
 	}
 }

@@ -38,6 +38,10 @@ namespace BrawlSongManager {
 
 		public SongPanel() {
 			InitializeComponent();
+
+			AllowDrop = true;
+			this.DragEnter += SongPanel_DragEnter;
+			this.DragDrop += SongPanel_DragDrop;
 		}
 
 		public void Close() {
@@ -125,6 +129,32 @@ namespace BrawlSongManager {
 		}
 		public void UpdateMenumain() {
 			songNameBar.UpdateMenumain();
+		}
+
+		private void SongPanel_DragEnter(object sender, DragEventArgs e) {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop)) { // Must be a file
+				string[] s = (string[])e.Data.GetData(DataFormats.FileDrop);
+				if (s.Length == 1) { // Can only drag and drop one file
+					string filename = s[0].ToLower();
+					if (filename.EndsWith(".brstm") || filename.EndsWith(".wav")) {
+						e.Effect = DragDropEffects.Copy;
+					}
+				}
+			}
+		}
+
+		private void SongPanel_DragDrop(object sender, DragEventArgs e) {
+			string[] s = (string[])e.Data.GetData(DataFormats.FileDrop);
+			string filepath = s[0].ToLower();
+			if (FileOpen) {
+				if (_rootNode != null) {
+					_rootNode.Dispose(); // Close the file before overwriting it!
+					_rootNode = null;
+				}
+				MainForm.copyBrstm(filepath, _rootPath);
+				Open(new FileInfo(_rootPath));
+				//refreshDirectory();
+			}
 		}
 	}
 }

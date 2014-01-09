@@ -64,12 +64,9 @@ namespace BrawlSongManager {
 			RightControl = chooseLabel;
 
 			// Drag and drop for the left and right sides of the window. The dragEnter and dragDrop methods will check which panel the file is dropped onto.
-			splitContainer1.Panel2.AllowDrop = true;
-			splitContainer1.Panel2.DragEnter += new DragEventHandler(dragEnter);
-			splitContainer1.Panel2.DragDrop += new DragEventHandler(dragDrop);
 			listBox1.AllowDrop = true;
-			listBox1.DragEnter += new DragEventHandler(dragEnter);
-			listBox1.DragDrop += new DragEventHandler(dragDrop);
+			listBox1.DragEnter += dragEnter;
+			listBox1.DragDrop += dragDrop;
 
 			this.FormClosing += closing;
 
@@ -211,7 +208,7 @@ namespace BrawlSongManager {
 		/// </summary>
 		/// <param name="src">a BRSTM or WAV file</param>
 		/// <param name="dest">the output BRSTM path</param>
-		private static void copyBrstm(string src, string dest) {
+		public static void copyBrstm(string src, string dest) {
 			if (src.EndsWith(".brstm")) {
 				FileOperations.Copy(src, dest); // Use FileOperations (calls Windows shell -> asks for confirmation to overwrite)
 			} else {

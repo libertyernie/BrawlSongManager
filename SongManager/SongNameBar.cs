@@ -248,6 +248,12 @@ namespace BrawlSongManager {
 			}
 		}
 
+		public void ExportMSBin(string path) {
+			updateNodeString();
+			info.Rebuild();
+			info.Export(path);
+		}
+
 		private class MyTextBox : TextBox {
 			protected override void OnKeyPress(KeyPressEventArgs e) {
 				if (e.KeyChar == (char)Keys.Enter) {

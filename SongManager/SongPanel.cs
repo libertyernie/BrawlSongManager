@@ -64,7 +64,7 @@ namespace BrawlSongManager {
 			_rootPath = fi.FullName;
 			_rootNode = NodeFactory.FromFile(null, _rootPath);
 			if (LoadNames) {
-				string filename = Path.GetFileNameWithoutExtension(_rootPath);
+				string filename = Path.GetFileNameWithoutExtension(_rootPath).ToUpper();
 				int index = (from s in SongIDMap.Songs
 							 where s.Filename == filename
 							 select s.InfoPacIndex ?? -1)

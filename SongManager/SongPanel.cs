@@ -122,9 +122,6 @@ namespace BrawlSongManager {
 		public void save() {
 			songNameBar.save();
 		}
-		public void UpdateMenumain() {
-			songNameBar.UpdateMenumain();
-		}
 
 		public void ExportMSBin(string path) {
 			songNameBar.ExportMSBin(path);

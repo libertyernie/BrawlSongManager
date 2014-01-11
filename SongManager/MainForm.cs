@@ -189,40 +189,10 @@ namespace BrawlSongManager {
 						if (string.Equals(nd.EntryText, Path.GetFileName(songPanel1.RootPath), StringComparison.InvariantCultureIgnoreCase)) {
 							songPanel1.Close(); // in case the file is already open
 						}
-						copyBrstm(filepath, CurrentDirectory + "\\" + nd.EntryText);
+						SongPanel.copyBrstm(filepath, CurrentDirectory + "\\" + nd.EntryText);
 						refreshDirectory();
 					}
 				}
-			}/* else if (songPanel1.FileOpen) {
-				if (_rootNode != null) {
-					_rootNode.Dispose(); // Close the file before overwriting it!
-					_rootNode = null;
-				}
-				copyBrstm(filepath, _rootPath);
-				refreshDirectory();
-			}*/
-		}
-
-		/// <summary>
-		/// This method can handle WAV files, converting them to BRSTM using BrawlLib's converter.
-		/// </summary>
-		/// <param name="src">a BRSTM or WAV file</param>
-		/// <param name="dest">the output BRSTM path</param>
-		public static void copyBrstm(string src, string dest) {
-			if (src.EndsWith(".brstm")) {
-				FileOperations.Copy(src, dest); // Use FileOperations (calls Windows shell -> asks for confirmation to overwrite)
-			} else {
-				BrstmConverterDialog bcd = new BrstmConverterDialog();
-				bcd.AudioSource = src;
-				if (bcd.ShowDialog() == DialogResult.OK) {
-					// Make a temporary node to put the data in, and export it.
-					// This avoids the need to use pointers directly.
-					RSTMNode tmpNode = new RSTMNode();
-					tmpNode.ReplaceRaw(bcd.AudioData);
-					tmpNode.Export(dest);
-					tmpNode.Dispose();
-				}
-				bcd.Dispose();
 			}
 		}
 

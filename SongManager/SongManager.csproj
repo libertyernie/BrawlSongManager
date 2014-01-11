@@ -80,18 +80,6 @@
     <Compile Include="ReadOnlySearchableRichTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SongNameBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SongNameBar.Designer.cs">
-      <DependentUpon>SongNameBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SongPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="SongPanel.Designer.cs">
-      <DependentUpon>SongPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="SongsByStage.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -107,12 +95,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SongNameBar.resx">
-      <DependentUpon>SongNameBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SongPanel.resx">
-      <DependentUpon>SongPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -31,7 +31,7 @@
 			this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.songPanel1 = new BrawlSongManager.SongPanel();
+			this.songPanel1 = new BrawlManagerLib.SongPanel();
 			this.rightLabel = new System.Windows.Forms.Label();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -332,7 +332,7 @@
 		private System.Windows.Forms.ToolStripMenuItem updateMumenumainToolStripMenuItem;
 		private System.Windows.Forms.SplitContainer splitContainerTop;
 		private System.Windows.Forms.Label rightLabel;
-		private SongPanel songPanel1;
+		private BrawlManagerLib.SongPanel songPanel1;
 
 
 

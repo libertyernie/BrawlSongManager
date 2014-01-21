@@ -3,4 +3,7 @@ SongManager/bin/Debug
 SongManager/bin/Release/*
 SongManager/obj
 !SongManager/bin/Release/BrawlSongManager.exe
+!SongManager/bin/Release/BrawlManagerLib.dll
+!SongManager/bin/Release/BrawlLib.dll
+!SongManager/bin/Release/*.txt
 *.suo

@@ -120,6 +120,11 @@ namespace BrawlSongManager {
 					changeDirectory(search);
 					return;
 				}
+				search = new DirectoryInfo(dir.FullName + "\\minusery\\pf\\sound\\strm");
+				if (search.Exists) {
+					changeDirectory(search);
+					return;
+				}
 			}
 			Array.Sort(brstmFiles, delegate(FileInfo f1, FileInfo f2) {
 				return f1.Name.ToLower().CompareTo(f2.Name.ToLower()); // Sort by filename, case-insensitive
